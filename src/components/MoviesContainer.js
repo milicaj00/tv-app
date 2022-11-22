@@ -29,13 +29,14 @@ const MoviesContainer = () => {
                         >
                             <h1>{c.category_name}</h1>
                             <HorisontalList
-                                data={movieStore.movies[c.category_id]}
+                                data={movieStore.movies[c.category_id].slice(0,20)}
                                 isActive={activeList == i}
                                 setNextActive={setActiveList}
                                 myIndex={i}
                                 lastIndex={
                                     movieStore.categories.length - 1 == i
                                 }
+                                staticIndex={3}
                             />
                         </div>
                     ))}

@@ -24,7 +24,8 @@ const HorisontalList = ({
     isActive,
     setNextActive,
     myIndex,
-    lastIndex
+    lastIndex,
+    staticIndex
 }) => {
     const keyStore = useInstance(ActiveHandler);
     const activeMovie = useInstance(ActiveMovieStore);
@@ -48,7 +49,7 @@ const HorisontalList = ({
             removeKeyHandler(keyHandler);
             removeKeyUp(onKeyUp);
         };
-    }, [keyStore.keyHandler, isActive, first, last]);
+    }, [keyStore.keyHandler, isActive, first, last, current]);
 
     const keyHandler = ev => {
         switch (ev.keyCode) {
@@ -89,23 +90,34 @@ const HorisontalList = ({
     };
 
     const left = () => {
-        if (first != 0) {
-            setFirst(first => first - 1);
-            setLast(last => last - 1);
+        if (current > staticIndex) {
+            setCurrent(current - 1);
         } else {
-            removeKeyHandler(keyHandler);
-            removeKeyUp(onKeyUp);
-            keyStore.setActive("SideMenu");
+            if (first != 0) {
+                setFirst(first - 1);
+                setLast(last - 1);
+            } else if (current != 0) {
+                setCurrent(current - 1);
+            } else {
+                removeKeyHandler(keyHandler);
+                removeKeyUp(onKeyUp);
+                keyStore.setActive("SideMenu");
+            }
         }
     };
 
     const right = () => {
-        if (first < data.length - 1) {
-            setFirst(first => first + 1);
-            setLast(last => last + 1);
+        if (current < staticIndex) {
+            setCurrent(current + 1);
+        } else {
+            if (last < data.length) {
+                setFirst(first + 1);
+                setLast(last + 1);
+            } else if (current < 7) {
+                setCurrent(current + 1);
+            }
         }
     };
-
     const enter = async () => {
         await activeMovie.getFullMovieInfo();
         setOpenModal(true);
@@ -117,11 +129,10 @@ const HorisontalList = ({
         keyStore.setActive("Movies");
     };
 
-   
     const onKeyUp = ev => {
         clearTimeout(timer);
         timer = setTimeout(() => {
-            activeMovie.setActive(data[first]);
+            activeMovie.setActive(data[current + first]);
         }, 1000);
     };
 
