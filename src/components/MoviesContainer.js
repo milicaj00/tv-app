@@ -20,7 +20,9 @@ const MoviesContainer = () => {
         return (
             <div className="MoviesContainer">
                 <div
-                    style={{ transform: `translateY(-${activeList * 393}px)` }}
+                    style={{
+                        transform: `translateY(-${activeList * 393}px)`
+                    }}
                 >
                     {movieStore.categories.map((c, i) => (
                         <div
@@ -29,7 +31,10 @@ const MoviesContainer = () => {
                         >
                             <h1>{c.category_name}</h1>
                             <HorisontalList
-                                data={movieStore.movies[c.category_id].slice(0,20)}
+                                data={movieStore.movies[c.category_id].slice(
+                                    0,
+                                    20
+                                )}
                                 isActive={activeList == i}
                                 setNextActive={setActiveList}
                                 myIndex={i}

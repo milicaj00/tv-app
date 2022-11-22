@@ -17,6 +17,7 @@ import "../style/horisontalList.css";
 import FullMovieInfo from "./FullMovieInfo";
 import Modal from "./Modal";
 
+const width = 222;
 let timer;
 
 const HorisontalList = ({
@@ -35,6 +36,7 @@ const HorisontalList = ({
     const [last, setLast] = useState(8);
 
     const [openModal, setOpenModal] = useState(false);
+    const [translate, setTranslate] = useState(0);
 
     useEffect(() => {
         if (keyStore.keyHandler == "Movies" && isActive) {
@@ -49,7 +51,7 @@ const HorisontalList = ({
             removeKeyHandler(keyHandler);
             removeKeyUp(onKeyUp);
         };
-    }, [keyStore.keyHandler, isActive, first, last, current]);
+    }, [keyStore.keyHandler, isActive, first, last, current, translate]);
 
     const keyHandler = ev => {
         switch (ev.keyCode) {
@@ -96,6 +98,7 @@ const HorisontalList = ({
             if (first != 0) {
                 setFirst(first - 1);
                 setLast(last - 1);
+                setTranslate(translate - width);
             } else if (current != 0) {
                 setCurrent(current - 1);
             } else {
@@ -113,6 +116,7 @@ const HorisontalList = ({
             if (last < data.length) {
                 setFirst(first + 1);
                 setLast(last + 1);
+                setTranslate(translate + width);
             } else if (current < 7) {
                 setCurrent(current + 1);
             }
@@ -133,7 +137,7 @@ const HorisontalList = ({
         clearTimeout(timer);
         timer = setTimeout(() => {
             activeMovie.setActive(data[current + first]);
-        }, 1000);
+        }, 500);
     };
 
     const handleError = e => {
@@ -141,31 +145,44 @@ const HorisontalList = ({
     };
 
     return (
-        <div className="HorisontalList">
+        <>
             <Modal open={openModal} onClose={closeModal}>
                 <FullMovieInfo />
             </Modal>
-
-            {data?.slice(first, last).map((el, i) => (
+            <div
+                className="HorisontalList"
+                style={{
+                    transform: `translateX(${translate}px)`
+                }}
+            >
                 <div
-                    className={`movie-image-container ${
-                        keyStore.keyHandler == "Movies" &&
-                        isActive &&
-                        current == i
-                            ? "active"
-                            : ""
-                    }`}
-                    key={el.stream_id}
+                    className="horisontal-animation"
+                    style={{
+                        transform: `translateX(-${translate}px)`
+                    }}
                 >
-                    <img
-                        src={el.stream_icon}
-                        alt={el.name}
-                        className="movie-image"
-                        onError={e => handleError(e)}
-                    />
+                    {data?.slice(first, last).map((el, i) => (
+                        <div
+                            className={`movie-image-container ${
+                                keyStore.keyHandler == "Movies" &&
+                                isActive &&
+                                current == i
+                                    ? "active"
+                                    : ""
+                            }`}
+                            key={el.stream_id}
+                        >
+                            <img
+                                src={el.stream_icon}
+                                alt={el.name}
+                                className="movie-image"
+                                onError={e => handleError(e)}
+                            />
+                        </div>
+                    ))}
                 </div>
-            ))}
-        </div>
+            </div>
+        </>
     );
 };
 

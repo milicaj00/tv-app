@@ -1,10 +1,13 @@
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
+import ReactDOM from "react-dom";
 import { useInstance } from "react-ioc";
 import { addKeyHandler, keyCodes, removeKeyHandler } from "../helpers/Utility";
 import { ActiveHandler } from "../store/ActiveHandler";
 
 import "../style/modal.css";
+
+const modalRoot = document.getElementById("modal");
 
 const Modal = ({ onClose, open, children }) => {
     const keyStore = useInstance(ActiveHandler);
@@ -31,7 +34,7 @@ const Modal = ({ onClose, open, children }) => {
         onClose();
     };
 
-    return (
+    return ReactDOM.createPortal(
         <div
             className={
                 open && keyStore.keyHandler == "Modal"
@@ -40,7 +43,8 @@ const Modal = ({ onClose, open, children }) => {
             }
         >
             <section className="modal-main">{children}</section>
-        </div>
+        </div>,
+        modalRoot
     );
 };
 
