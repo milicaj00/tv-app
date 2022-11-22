@@ -19,18 +19,27 @@ const MoviesContainer = () => {
 
         return (
             <div className="MoviesContainer">
-                {movieStore.categories.map((c, i) => (
-                    <div key={c.category_id} className="movie-list-container">
-                        <h1>{c.category_name}</h1>
-                        <HorisontalList
-                            data={movieStore.movies[c.category_id]}
-                            isActive={activeList == i}
-                            setNextActive={setActiveList}
-                            myIndex={i}
-                            lastIndex={movieStore.categories.length - 1 == i}
-                        />
-                    </div>
-                ))}
+                <div
+                    style={{ transform: `translateY(-${activeList * 393}px)` }}
+                >
+                    {movieStore.categories.map((c, i) => (
+                        <div
+                            key={c.category_id}
+                            className="movie-list-container"
+                        >
+                            <h1>{c.category_name}</h1>
+                            <HorisontalList
+                                data={movieStore.movies[c.category_id]}
+                                isActive={activeList == i}
+                                setNextActive={setActiveList}
+                                myIndex={i}
+                                lastIndex={
+                                    movieStore.categories.length - 1 == i
+                                }
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
         );
     }

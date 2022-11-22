@@ -12,6 +12,7 @@
 .SideMenu.open{
     width: 250px;
     background-color: inherit;
+    z-index: 1000;
 }
 
 .sidebar-item{

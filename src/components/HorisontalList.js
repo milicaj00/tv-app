@@ -17,6 +17,8 @@ import "../style/horisontalList.css";
 import FullMovieInfo from "./FullMovieInfo";
 import Modal from "./Modal";
 
+let timer;
+
 const HorisontalList = ({
     data,
     isActive,
@@ -115,7 +117,7 @@ const HorisontalList = ({
         keyStore.setActive("Movies");
     };
 
-    let timer;
+   
     const onKeyUp = ev => {
         clearTimeout(timer);
         timer = setTimeout(() => {
