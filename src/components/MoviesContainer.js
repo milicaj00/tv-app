@@ -31,10 +31,7 @@ const MoviesContainer = () => {
                         >
                             <h1>{c.category_name}</h1>
                             <HorisontalList
-                                data={movieStore.movies[c.category_id].slice(
-                                    0,
-                                    20
-                                )}
+                                data={movieStore.movies[c.category_id].slice(0,30)}
                                 isActive={activeList == i}
                                 setNextActive={setActiveList}
                                 myIndex={i}

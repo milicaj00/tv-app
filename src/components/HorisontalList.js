@@ -19,6 +19,7 @@ import Modal from "./Modal";
 
 const width = 222;
 let timer;
+let isEnable = true;
 
 const HorisontalList = ({
     data,
@@ -33,10 +34,9 @@ const HorisontalList = ({
 
     const [current, setCurrent] = useState(0);
     const [first, setFirst] = useState(0);
-    const [last, setLast] = useState(8);
+    const [last, setLast] = useState(20);
 
     const [openModal, setOpenModal] = useState(false);
-    const [translate, setTranslate] = useState(0);
 
     useEffect(() => {
         if (keyStore.keyHandler == "Movies" && isActive) {
@@ -51,7 +51,11 @@ const HorisontalList = ({
             removeKeyHandler(keyHandler);
             removeKeyUp(onKeyUp);
         };
-    }, [keyStore.keyHandler, isActive, first, last, current, translate]);
+    }, [keyStore.keyHandler, isActive, first, last, current]);
+
+    useEffect(() => {
+        setTimeout(() => (isEnable = true), 100);
+    }, [last]);
 
     const keyHandler = ev => {
         switch (ev.keyCode) {
@@ -92,33 +96,39 @@ const HorisontalList = ({
     };
 
     const left = () => {
-        if (current > staticIndex) {
-            setCurrent(current - 1);
-        } else {
-            if (first != 0) {
-                setFirst(first - 1);
-                setLast(last - 1);
-                setTranslate(translate - width);
-            } else if (current != 0) {
+        if (isEnable) {
+            if (current > staticIndex) {
                 setCurrent(current - 1);
             } else {
-                removeKeyHandler(keyHandler);
-                removeKeyUp(onKeyUp);
-                keyStore.setActive("SideMenu");
+                if (first != 0) {
+                    isEnable = false;
+                    setFirst(first - 1);
+                    setLast(last - 1);
+                } else if (current != 0) {
+                    setCurrent(current - 1);
+                } else {
+                    removeKeyHandler(keyHandler);
+                    removeKeyUp(onKeyUp);
+                    keyStore.setActive("SideMenu");
+                }
             }
         }
     };
 
     const right = () => {
-        if (current < staticIndex) {
-            setCurrent(current + 1);
-        } else {
-            if (last < data.length) {
-                setFirst(first + 1);
-                setLast(last + 1);
-                setTranslate(translate + width);
-            } else if (current < 7) {
+        if (isEnable) {
+            if (current < staticIndex) {
                 setCurrent(current + 1);
+            } else {
+                if (last < data.length) {
+                    isEnable = false;
+                    setFirst(first + 1);
+                    setLast(last + 1);
+                } else if (first < data.length - 8) {
+                    setFirst(first + 1);
+                } else if (current < 7) {
+                    setCurrent(current + 1);
+                }
             }
         }
     };
@@ -152,13 +162,13 @@ const HorisontalList = ({
             <div
                 className="HorisontalList"
                 style={{
-                    transform: `translateX(${translate}px)`
+                    transform: `translateX(${first * width}px)`
                 }}
             >
                 <div
                     className="horisontal-animation"
                     style={{
-                        transform: `translateX(-${translate}px)`
+                        transform: `translateX(-${first * width}px)`
                     }}
                 >
                     {data?.slice(first, last).map((el, i) => (
