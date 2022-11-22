@@ -1,0 +1,25 @@
+.HorisontalList{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+
+    gap: 13px;
+}
+.movie-image{
+    width: 210px;
+    height: 290px;
+
+    min-height: 290px;
+    min-width: 210px;
+
+    max-height: 290px;
+    max-width: 210px;
+
+    object-fit: cover;
+
+    background-color: blue;
+}
+.movie-image-container.active{
+    border: 7px solid white;
+}

@@ -1,0 +1,35 @@
+.MainContainer{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-left: 150px;
+    padding-top: 70px;
+    overflow: hidden;
+}
+.MovieInfo{
+    height: 500px;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+
+    gap: 30px;
+}
+.movie-info-image{
+    height: 375px;
+    width: 270px;
+    background-color: blueviolet;
+}
+.movie-info{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
+.logo{
+    position: absolute;
+    left: 22px;
+    top: 28px;
+}

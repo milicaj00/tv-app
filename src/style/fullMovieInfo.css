@@ -1,0 +1,17 @@
+.FullMovieInfo{
+    padding: 50px;
+    font-size:xx-large;
+}
+.image-info-cont{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+.modal-movie-image, .image-cont{
+    height: 375px;
+    width: 270px;
+    border-radius: 5px;
+}
+.bold-span{
+    font-weight: bold;
+}

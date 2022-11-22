@@ -1,0 +1,27 @@
+.HorisontalButtons{
+    display: flex;
+    flex-direction: row;
+    align-self: baseline;
+}
+.blue-button{
+    background-color: #00B9BD;
+    color: white;
+}
+.blue-button, .white-button{
+    height: 65px;
+    width: 299px;
+    left: 0px;
+    top: 13px;
+    border-radius: 5px;
+    font-size:x-large;
+}
+.white-button{
+    background-color:inherit;
+    color: white;
+}
+.HorisontalButtons > button:hover{
+    opacity: 0.5;
+}
+.HorisontalButtons > button.active{
+    background-color: red;
+}
